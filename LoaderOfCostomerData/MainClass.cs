@@ -27,7 +27,7 @@ namespace LoaderOfCostomerData
         {
             var result = "";
             var structCompanyInfo = JsonConvert.DeserializeObject<Request>(companyInfo);
-
+            
             return result;
 
         }
