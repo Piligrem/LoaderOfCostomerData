@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LoaderOfCostomerData
 {
-    class RSAClass
+    public class RSAClass
     {
     }
 }
