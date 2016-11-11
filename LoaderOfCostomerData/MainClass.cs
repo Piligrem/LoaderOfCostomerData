@@ -14,6 +14,8 @@ namespace LoaderOfCostomerData
     {   // описываем методы которые можно будет вызывать из вне
         [DispId(1)]
         string GetData(string companyInfo);
+        [DispId(1)]
+        string GetLicense();
     }
 
     //определим интерфейс для COM-событий(GUID получаем и записываем с помощью утилиты guidgen.exe)
@@ -81,6 +83,17 @@ namespace LoaderOfCostomerData
 
             return result;
 
+        }
+
+        public string GetLicense()
+        {
+            string companyInfo = "";
+            using (MemoryStream outputMS = new MemoryStream(Properties.Resources.OwnerRes))
+            {
+                var output = new StreamReader(outputMS);
+                companyInfo = output.ReadToEnd();
+            }
+                return companyInfo;
         }
 
 
