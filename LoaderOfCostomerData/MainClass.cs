@@ -90,7 +90,7 @@ namespace LoaderOfCostomerData
             string companyInfo = "";
             using (MemoryStream outputMS = new MemoryStream(Properties.Resources.OwnerRes))
             {
-                var output = new StreamReader(outputMS, Encoding.ASCII);
+                var output = new StreamReader(outputMS, Encoding.Default);
                 companyInfo = output.ReadToEnd();
             }
                 return companyInfo;
