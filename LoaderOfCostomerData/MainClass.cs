@@ -42,7 +42,12 @@ namespace LoaderOfCostomerData
                 var rnd = new Random().NextDouble();
                 var r =(Int32) (d + rnd * 16) % 16 | 0;
                 d = Math.Floor(d / 16);
-                uuid += (c == 'x' ? r : (r & 0x3 | 0x8)).ToString("X4");
+                if (c == 'x')
+                    uuid += r.ToString("X");
+                else if (c == 'y')
+                    uuid += (r & 0x3 | 0x8).ToString("X");
+                else
+                    uuid += c;
             }
             return uuid;
 
@@ -93,7 +98,7 @@ namespace LoaderOfCostomerData
             //-*
 
 
-            return result;
+            return url;
 
         }
 
