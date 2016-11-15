@@ -7,6 +7,7 @@ using System.Text;
 
 namespace LoaderOfCostomerData
 {
+    [JsonObject]
     class Owner
     {
        public Owner(bool _getOwner)
@@ -29,16 +30,18 @@ namespace LoaderOfCostomerData
             Name = _name;
             Bin = _bin;
         }
-
+       
         public Owner()
         { }
+        [JsonProperty("Name")]
         string Name { get; set; }
-
+        [JsonProperty("Bin")]
         string Bin { get; set; }
     }
     class Request
     {
-       public Owner RequestOwner { get; set; }
+        [JsonProperty("RequestOwner")]
+        public Owner RequestOwner { get; set; }
        public string Name { get; set; }
        public string BIN { get; set; }
     }
