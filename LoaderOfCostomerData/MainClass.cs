@@ -24,21 +24,42 @@ namespace LoaderOfCostomerData
     {
 
     }
+
+
+
     [Guid("0137FC8A-541D-47B7-A8B3-D4228EACDB66"), ClassInterface(ClassInterfaceType.None), ComSourceInterfaces(typeof(IEvents))]
     public class MainClass : IMainClass
     {
+
+        string generateUUID()
+        {
+            var d = (DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+
+            string _uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx";
+            string uuid = "";
+            foreach (char c in _uuid)
+            {
+                var rnd = new Random().NextDouble();
+                var r =(Int32) (d + rnd * 16) % 16 | 0;
+                d = Math.Floor(d / 16);
+                uuid += (c == 'x' ? r : (r & 0x3 | 0x8)).ToString("X4");
+            }
+            return uuid;
+
+        }
 
         public string Connect(string companyInfo, string connectionType)
         {
             string result = "";
             //WebClient client = new WebClient();
-
+            string uid = generateUUID();
+            string t = generateUUID();
             //Пример получения исходного кода сайта
-            string url = "http://kgd.gov.kz/ru/services/taxpayer_search/legal_entity";
+            string url = "http://kgd.gov.kz/apps/services/CaptchaWeb/generate?uid=" + uid + "&t=" + t + "";
             HttpWebRequest request1 = (HttpWebRequest)WebRequest.Create(url);
             HttpWebResponse response = (HttpWebResponse)request1.GetResponse();
             StreamReader sr = new StreamReader(response.GetResponseStream());
-            //TexBox1.Text = sr.ReadToEnd();
+ 
             sr.Close();
 
 
@@ -80,7 +101,7 @@ namespace LoaderOfCostomerData
         {
             var result = "";
             var structCompanyInfo = JsonConvert.DeserializeObject<Request>(companyInfo);
-
+            result = Connect(companyInfo, "");
             return result;
 
         }
