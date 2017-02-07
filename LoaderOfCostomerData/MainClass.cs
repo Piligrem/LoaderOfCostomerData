@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Net;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace LoaderOfCostomerData
 {
@@ -33,24 +34,7 @@ namespace LoaderOfCostomerData
 
         string generateUUID()
         {
-            var d = (DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-
-            string _uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx";
-            string uuid = "";
-            foreach (char c in _uuid)
-            {
-                var rnd = new Random().NextDouble();
-                var r =(Int32) (d + rnd * 16) % 16 | 0;
-                d = Math.Floor(d / 16);
-                if (c == 'x')
-                    uuid += r.ToString("X");
-                else if (c == 'y')
-                    uuid += (r & 0x3 | 0x8).ToString("X");
-                else
-                    uuid += c;
-            }
-            return uuid;
-
+          return System.Guid.NewGuid().ToString();
         }
 
         public string Connect(string companyInfo, string connectionType)
