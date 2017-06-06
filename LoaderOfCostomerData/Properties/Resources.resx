@@ -127,4 +127,7 @@
   <data name="OwnerRes" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\OwnerRes.res;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="OwnerRes.res" xml:space="preserve">
+    <value>OwnerRes.res</value>
+  </data>
 </root>

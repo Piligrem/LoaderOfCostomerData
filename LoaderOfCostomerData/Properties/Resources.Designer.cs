@@ -87,5 +87,14 @@ namespace LoaderOfCostomerData.Properties {
                 return ((byte[])(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OwnerRes.res.
+        /// </summary>
+        internal static string OwnerRes_res {
+            get {
+                return ResourceManager.GetString("OwnerRes.res", resourceCulture);
+            }
+        }
     }
 }

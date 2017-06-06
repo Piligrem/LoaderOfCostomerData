@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Net;
 using System.IO;
-using System.Text.RegularExpressions;
+
 
 namespace LoaderOfCostomerData
 {
@@ -39,50 +39,8 @@ namespace LoaderOfCostomerData
 
         public string Connect(string companyInfo, string connectionType)
         {
-            string result = "";
-            //WebClient client = new WebClient();
-            string uid = generateUUID();
-            string t = generateUUID();
-            //Пример получения исходного кода сайта
-            string url = "http://kgd.gov.kz/apps/services/CaptchaWeb/generate?uid=" + uid + "&t=" + t + "";
-            HttpWebRequest request1 = (HttpWebRequest)WebRequest.Create(url);
-            HttpWebResponse response = (HttpWebResponse)request1.GetResponse();
-            StreamReader sr = new StreamReader(response.GetResponseStream());
- 
-            sr.Close();
-
-
-            //+* Привер записи Cookies и их восстановления при последующем запросе
-            //Создаем соединение (получаем капчу)
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://kgd.gov.kz/");
-            request.Proxy.Credentials = CredentialCache.DefaultCredentials;
-            request.AllowAutoRedirect = false;
-
-            //Создаем куки и контейнер для куки
-            request.CookieContainer = new CookieContainer();
-            HttpWebResponse r1 = (HttpWebResponse)request.GetResponse();
-            
-            //По очередно записываем
-            foreach (Cookie c in r1.Cookies)
-            {
-                //tb1.Text += "\r\n Cookie:" + c;
-                request.CookieContainer.Add(c);
-            }
-
-            //Второй запрос (в котором отправляем данные вместе с предыдущими Cookies)
-            HttpWebRequest h2 = (HttpWebRequest)WebRequest.Create("http://kgd.gov.kz/ru/services/taxpayer_search/legal_entity");
-            h2.Proxy.Credentials = CredentialCache.DefaultCredentials;
-            h2.AllowAutoRedirect = false;
-            h2.CookieContainer = request.CookieContainer;
-            HttpWebResponse r2 = (HttpWebResponse)h2.GetResponse();
-            foreach (Cookie c in r2.Cookies)
-            {
-                //tb1.Text += "\r\n Cookie:" + c;
-            }
-            //-*
-
-
-            return url;
+            RequestConnector rcRequestConnector = new RequestConnector();
+            return rcRequestConnector.ConnectToSource();
 
         }
 
