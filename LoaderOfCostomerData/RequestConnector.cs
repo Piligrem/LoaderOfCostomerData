@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Net;
 using System.IO;
 
@@ -12,7 +13,7 @@ namespace LoaderOfCostomerData
 
         public RequestConnector()
         {
-            t = generateUUID();
+            uid = generateUUID();
         }
         string generateUUID()
         {
@@ -24,7 +25,7 @@ namespace LoaderOfCostomerData
 
             string result = "";
             //WebClient client = new WebClient();
-            string uid = generateUUID();
+            t = generateUUID();
             CookieContainer reqCookies = new CookieContainer();
             Cookie cookie = new Cookie();
             //Пример получения исходного кода сайта
@@ -41,9 +42,24 @@ namespace LoaderOfCostomerData
             request1.KeepAlive = false;
             request1.Method = "GET";
             HttpWebResponse response = (HttpWebResponse)request1.GetResponse();
-            var sr = new StreamReader(response.GetResponseStream());
-
-            sr.Close();
+            if ((response.StatusCode == HttpStatusCode.OK ||
+                 response.StatusCode == HttpStatusCode.Moved ||
+                 response.StatusCode == HttpStatusCode.Redirect) &&
+                response.ContentType.StartsWith("image", StringComparison.OrdinalIgnoreCase))
+            {
+                // if the remote file was found, download oit
+                using (Stream inputStream = response.GetResponseStream())
+                using (Stream outputStream = File.OpenWrite(@"g:\test.jpg"))
+                {
+                    byte[] buffer = new byte[4096];
+                    int bytesRead;
+                    do
+                    {
+                        bytesRead = inputStream.Read(buffer, 0, buffer.Length);
+                        outputStream.Write(buffer, 0, bytesRead);
+                    } while (bytesRead != 0);
+                }
+            }
 
 
             //+* Привер записи Cookies и их восстановления при последующем запросе
