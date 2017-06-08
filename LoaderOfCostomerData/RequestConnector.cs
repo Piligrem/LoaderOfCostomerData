@@ -2,6 +2,8 @@
 using System;
 using System.Net;
 using System.IO;
+using System.Windows.Forms;
+
 
 
 namespace LoaderOfCostomerData
@@ -42,6 +44,7 @@ namespace LoaderOfCostomerData
             request1.KeepAlive = false;
             request1.Method = "GET";
             HttpWebResponse response = (HttpWebResponse)request1.GetResponse();
+           
             if ((response.StatusCode == HttpStatusCode.OK ||
                  response.StatusCode == HttpStatusCode.Moved ||
                  response.StatusCode == HttpStatusCode.Redirect) &&
@@ -49,47 +52,42 @@ namespace LoaderOfCostomerData
             {
                 // if the remote file was found, download oit
                 using (Stream inputStream = response.GetResponseStream())
-                using (Stream outputStream = File.OpenWrite(@"g:\test.jpg"))
                 {
-                    byte[] buffer = new byte[4096];
-                    int bytesRead;
-                    do
+                    byte[] buffer = new byte[16 * 1024];
+                    using (MemoryStream ms = new MemoryStream())
                     {
-                        bytesRead = inputStream.Read(buffer, 0, buffer.Length);
-                        outputStream.Write(buffer, 0, bytesRead);
-                    } while (bytesRead != 0);
+                        int read;
+                        while ((read = inputStream.Read(buffer, 0, buffer.Length)) > 0)
+                        {
+                            ms.Write(buffer, 0, read);
+                        }
+                        using (var capForm = new Capcha(ms.ToArray()))
+                        {
+                            var resultCapcha = capForm.ShowDialog();
+                            if (resultCapcha == DialogResult.OK)
+                            {
+                                result = capForm.TextCapcha;
+                            }
+                        }
+                    }
                 }
+
+                /*      using (Stream inputStream = response.GetResponseStream())
+                      using (Stream outputStream = File.OpenWrite(@"g:\test.jpg"))
+                      {
+                          byte[] buffer = new byte[4096];
+                          int bytesRead;
+                          do
+                          {
+                              bytesRead = inputStream.Read(buffer, 0, buffer.Length);
+                              result = buffer.ToString();
+                              outputStream.Write(buffer, 0, bytesRead);
+                          } while (bytesRead != 0);
+                      }*/
             }
 
 
-            //+* Привер записи Cookies и их восстановления при последующем запросе
-            //Создаем соединение (получаем капчу)
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://kgd.gov.kz/");
-            request.Proxy.Credentials = CredentialCache.DefaultCredentials;
-            request.AllowAutoRedirect = false;
-
-            //Создаем куки и контейнер для куки
-            request.CookieContainer = new CookieContainer();
-            HttpWebResponse r1 = (HttpWebResponse)request.GetResponse();
-
-            //По очередно записываем
-            foreach (Cookie c in r1.Cookies)
-            {
-                //tb1.Text += "\r\n Cookie:" + c;
-                request.CookieContainer.Add(c);
-            }
-
-            //Второй запрос (в котором отправляем данные вместе с предыдущими Cookies)
-            HttpWebRequest h2 = (HttpWebRequest)WebRequest.Create("http://kgd.gov.kz/ru/services/taxpayer_search/legal_entity");
-            h2.Proxy.Credentials = CredentialCache.DefaultCredentials;
-            h2.AllowAutoRedirect = false;
-            h2.CookieContainer = request.CookieContainer;
-            HttpWebResponse r2 = (HttpWebResponse)h2.GetResponse();
-            foreach (Cookie c in r2.Cookies)
-            {
-                //  tb1.Text += "\r\n Cookie:" + c;
-            }
-
+          
             return result;
         }
     }
