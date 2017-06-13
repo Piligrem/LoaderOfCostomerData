@@ -1,6 +1,6 @@
 ﻿namespace LoaderOfCostomerData
 {
-    partial class Capcha
+    partial class CaptchaForm
     {
         /// <summary>
         /// Required designer variable.

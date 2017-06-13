@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace LoaderOfCostomerData
 {
-    public partial class Capcha : Form
+    public partial class CaptchaForm : Form
     {
-        public string TextCapcha { get; set; }
+        public string TextCaptcha { get; set; }
 
         public static Bitmap ByteToImage(byte[] blob)
         {
@@ -23,7 +23,7 @@ namespace LoaderOfCostomerData
             mStream.Dispose();
             return bm;
         }
-        public Capcha(byte[] byteImage)
+        public CaptchaForm(byte[] byteImage)
         {
             InitializeComponent();
             button1.Click += new EventHandler(this.button_click);
@@ -32,7 +32,7 @@ namespace LoaderOfCostomerData
 
         public void  button_click(object sender, EventArgs e)
         {
-            TextCapcha = capTextBox.Text;
+            TextCaptcha = capTextBox.Text;
             DialogResult = DialogResult.OK;
             Close();
         }

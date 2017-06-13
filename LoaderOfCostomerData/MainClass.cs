@@ -40,7 +40,9 @@ namespace LoaderOfCostomerData
         public string Connect(string companyInfo, string connectionType)
         {
             RequestConnector rcRequestConnector = new RequestConnector();
-            return rcRequestConnector.ConnectToSource();
+            Captcha captcha = rcRequestConnector.GetCaptcha();
+
+            return "";
 
         }
 
