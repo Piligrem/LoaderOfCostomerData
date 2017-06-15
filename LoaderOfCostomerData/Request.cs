@@ -38,12 +38,11 @@ namespace LoaderOfCostomerData
         [JsonProperty("Bin")]
         string Bin { get; set; }
     }
-   public class Request
+    class Request
     {
-       [JsonProperty("RequestOwner")]
-       Owner RequestOwner { get; set; }
+        [JsonProperty("RequestOwner")]
+        public Owner RequestOwner { get; set; }
        public string Name { get; set; }
        public string BIN { get; set; }
-       public int Type { get; set; }
     }
 }
