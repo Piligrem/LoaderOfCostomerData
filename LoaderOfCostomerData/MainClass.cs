@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Net;
+
 using System.IO;
 
 
@@ -31,16 +31,24 @@ namespace LoaderOfCostomerData
     [Guid("0137FC8A-541D-47B7-A8B3-D4228EACDB66"), ClassInterface(ClassInterfaceType.None), ComSourceInterfaces(typeof(IEvents))]
     public class MainClass : IMainClass
     {
+        private string uid { get; set; }
+        string t { get; set; }
 
+        public MainClass()
+        {
+            uid = generateUUID();
+        }
         string generateUUID()
         {
           return System.Guid.NewGuid().ToString();
         }
 
-        public string Connect(string companyInfo, string connectionType)
+        public string Connect(Request companyInfo, string connectionType)
         {
-            RequestConnector rcRequestConnector = new RequestConnector();
-            Captcha captcha = rcRequestConnector.GetCaptcha();
+            t = generateUUID();
+            var endPoint = "http://kgd.gov.kz/apps/services/CaptchaWeb/generate?uid=" + uid + "&t=" + t + ""; 
+            RestClient rcRequestConnector = new RestClient(endPoint, HttpVerb.GET);
+            Captcha captcha = rcRequestConnector.GetCaptcha(uid);
 
             return "";
 
@@ -48,9 +56,10 @@ namespace LoaderOfCostomerData
 
         public string GetData(string companyInfo)
         {
+
             var result = "";
-            var structCompanyInfo = JsonConvert.DeserializeObject<Request>(companyInfo);
-            result = Connect(companyInfo, "");
+            Request structCompanyInfo = JsonConvert.DeserializeObject<Request>(companyInfo);
+            result = Connect(structCompanyInfo, "");
             return result;
 
         }

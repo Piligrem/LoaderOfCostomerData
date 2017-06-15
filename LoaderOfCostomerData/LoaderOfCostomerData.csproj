@@ -68,7 +68,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Request.cs" />
-    <Compile Include="RequestConnector.cs" />
+    <Compile Include="RestClient.cs" />
     <Compile Include="RSAClass.cs" />
   </ItemGroup>
   <ItemGroup>
