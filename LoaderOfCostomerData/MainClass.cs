@@ -26,17 +26,15 @@ namespace LoaderOfCostomerData
 
     }
 
-
-
     [Guid("0137FC8A-541D-47B7-A8B3-D4228EACDB66"), ClassInterface(ClassInterfaceType.None), ComSourceInterfaces(typeof(IEvents))]
     public class MainClass : IMainClass
     {
-        private string uid { get; set; }
+        private string Uid { get; set; }
         string t { get; set; }
 
         public MainClass()
         {
-            uid = generateUUID();
+            Uid = generateUUID();
         }
         string generateUUID()
         {
@@ -46,7 +44,7 @@ namespace LoaderOfCostomerData
         public string Connect(Request companyInfo, string connectionType)
         {
             t = generateUUID();
-            var endPoint = "http://kgd.gov.kz/apps/services/CaptchaWeb/generate?uid=" + uid + "&t=" + t + "";
+            var endPoint = "http://kgd.gov.kz/apps/services/CaptchaWeb/generate?uid=" + Uid + "&t=" + t + "";
             string referer = "";
             if (companyInfo.Type == 1)
                 referer = "http://kgd.gov.kz/ru/services/taxpayer_search";
@@ -54,7 +52,7 @@ namespace LoaderOfCostomerData
                 referer = "http://kgd.gov.kz/ru/services/taxpayer_search/legal_entity";
 
             RestClient rcRequestConnector = new RestClient(endPoint, HttpVerb.GET, "", referer);
-            Captcha captcha = rcRequestConnector.GetCaptcha(uid);
+            Captcha captcha = rcRequestConnector.GetCaptcha(Uid);
 
             return "";
 
