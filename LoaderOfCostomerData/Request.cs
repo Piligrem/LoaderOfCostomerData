@@ -10,7 +10,7 @@ namespace LoaderOfCostomerData
     [JsonObject]
     class Owner
     {
-       public Owner(bool _getOwner)
+        public Owner(bool _getOwner)
         {
             if (_getOwner)
             {
@@ -30,7 +30,7 @@ namespace LoaderOfCostomerData
             Name = _name;
             Bin = _bin;
         }
-       
+
         public Owner()
         { }
         [JsonProperty("Name")]
@@ -38,11 +38,12 @@ namespace LoaderOfCostomerData
         [JsonProperty("Bin")]
         string Bin { get; set; }
     }
-    class Request
+    public class Request
     {
         [JsonProperty("RequestOwner")]
-        public Owner RequestOwner { get; set; }
-       public string Name { get; set; }
-       public string BIN { get; set; }
+        Owner RequestOwner { get; set; }
+        public string Name { get; set; }
+        public string BIN { get; set; }
+        public int Type { get; set; }
     }
 }
