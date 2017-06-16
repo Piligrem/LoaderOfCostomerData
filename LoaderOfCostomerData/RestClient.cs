@@ -32,7 +32,7 @@ namespace LoaderOfCostomerData
             Method = HttpVerb.GET;
             ContentType = "text/xml";
             PostData = "";
-            Referer = "";
+            Referer = "http://kgd.gov.kz/ru/services/taxpayer_search";
         }
         public RestClient(string endpoint)
         {
@@ -40,6 +40,7 @@ namespace LoaderOfCostomerData
             Method = HttpVerb.GET;
             ContentType = "text/xml";
             PostData = "";
+            Referer = "http://kgd.gov.kz/ru/services/taxpayer_search";
         }
         public RestClient(string endpoint, HttpVerb method)
         {
@@ -47,6 +48,7 @@ namespace LoaderOfCostomerData
             Method = method;
             ContentType = "text/xml";
             PostData = "";
+            Referer = "http://kgd.gov.kz/ru/services/taxpayer_search";
         }
 
         public RestClient(string endpoint, HttpVerb method, string postData)
@@ -55,6 +57,16 @@ namespace LoaderOfCostomerData
             Method = method;
             ContentType = "text/xml";
             PostData = postData;
+            Referer = "http://kgd.gov.kz/ru/services/taxpayer_search";
+        }
+
+        public RestClient(string endpoint, HttpVerb method, string postData, string referer)
+        {
+            EndPoint = endpoint;
+            Method = method;
+            ContentType = "text/xml";
+            PostData = postData;
+            Referer = referer;
         }
 
         public Captcha GetCaptcha(string uid)

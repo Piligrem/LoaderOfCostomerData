@@ -47,7 +47,13 @@ namespace LoaderOfCostomerData
         {
             t = generateUUID();
             var endPoint = "http://kgd.gov.kz/apps/services/CaptchaWeb/generate?uid=" + uid + "&t=" + t + "";
-            RestClient rcRequestConnector = new RestClient(endPoint, HttpVerb.GET);
+            string referer = "";
+            if (companyInfo.Type == 1)
+                referer = "http://kgd.gov.kz/ru/services/taxpayer_search";
+            else if (companyInfo.Type == 2)
+                referer = "http://kgd.gov.kz/ru/services/taxpayer_search/legal_entity";
+
+            RestClient rcRequestConnector = new RestClient(endPoint, HttpVerb.GET, "", referer);
             Captcha captcha = rcRequestConnector.GetCaptcha(uid);
 
             return "";
