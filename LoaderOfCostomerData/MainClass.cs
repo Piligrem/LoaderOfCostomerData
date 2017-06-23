@@ -44,20 +44,31 @@ namespace LoaderOfCostomerData
         public string Connect(Request companyInfo, string connectionType)
         {
             t = generateUUID();
-            var endPoint = "http://kgd.gov.kz/apps/services/CaptchaWeb/generate?uid=" + Uid + "&t=" + t + "";
+            var endPoint = "http://kgd.gov.kz";
+           
+
             string referer = "";
             if (companyInfo.Type == 1)
                 referer = "http://kgd.gov.kz/ru/services/taxpayer_search";
             else if (companyInfo.Type == 2)
                 referer = "http://kgd.gov.kz/ru/services/taxpayer_search/legal_entity";
-
-            RestClient rcRequestConnector = new RestClient(endPoint, HttpVerb.GET, "", referer);
-            Captcha captcha = rcRequestConnector.GetCaptcha(Uid);
-
-            return "";
+            else if (companyInfo.Type == 3)
+                referer = "http://kgd.gov.kz/ru/services/taxpayer_search/entrepreneur";
+            var service = "/apps/services/CaptchaWeb/generate?uid=" + Uid + "&t=" + t + "";
+            RestClient rcCaptcha = new RestClient(endPoint, service, HttpVerb.GET, "", referer);
+            Captcha captcha = rcCaptcha.GetCaptcha(Uid);
+            service = "/ru/system/ajax";
+            RestClient rcData = new RestClient(endPoint, service, HttpVerb.POST, "", referer);
+            string answer = rcData.GetData(captcha, companyInfo);
+            return answer;
 
         }
 
+        public void Close()
+        {
+            //var obj1C = V7Data.V7Object.AppDispatch
+            //Marshal.ReleaseComObject(Marshal.GetIDispatchForObject(obj1C));
+        }
         public string GetData(string companyInfo)
         {
 
